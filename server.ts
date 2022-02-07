@@ -9,7 +9,7 @@ const PORT = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.listen(PORT || process.env.PORT);
+app.listen(process.env.PORT || PORT);
 
 var mongoDB = 'mongodb+srv://admin:pokemon1ss@cluster0.vq0f4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(mongoDB);
