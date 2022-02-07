@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.listen(process.env.PORT || PORT);
 
-var mongoDB = 'mongodb+srv://admin:pokemon1ss@cluster0.vq0f4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+var mongoDB = 'mongodb+srv://admin:' + process.env.DB_PASSWORD + '@cluster0.vq0f4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(mongoDB);
 
 const userController = new UserController(app, UserDao.getInstance());
