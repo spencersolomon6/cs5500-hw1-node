@@ -29,7 +29,6 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString);
 
 const app = express();
-app.use(express.json());
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
@@ -52,6 +51,3 @@ const PORT = 4000;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.listen(process.env.PORT || PORT);
-
-var mongoDB = 'mongodb+srv://admin:adminPassword@cluster0.vq0f4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(mongoDB);
