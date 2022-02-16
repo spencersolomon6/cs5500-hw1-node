@@ -2,9 +2,9 @@
  * @file Implements mongoose schema for messages
  */
 
- import mongoose from "mongoose";
+ import mongoose, {Schema} from "mongoose";
+import { isStringTextContainingNode } from "typescript";
  import Message from "../../models/messages/Message";
- import User from "../../models/User";
  
  /**
   * @typedef Message Represents message relationship between two users,
@@ -15,9 +15,9 @@
   * @property {Date} sentOn the date this message was sent
   */
  const MessageSchema = new mongoose.Schema<Message>({
-     to: User,
-     from: User,
-     message: String,
-     sentOn: Date
+     to: {type: Schema.Types.ObjectId, ref: "UserModel"},
+     from: {type: Schema.Types.ObjectId, ref: "UserModel"},
+     message: {type: String, required: true},
+     sentOn: {type: Date, default: Date.now},
  }, {collection: "messages"});
  export default MessageSchema;

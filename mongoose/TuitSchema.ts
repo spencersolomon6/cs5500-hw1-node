@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Tuit from "../models/Tuit";
-import User from "../models/User";
+import Tuit from "../models/tuits/Tuit";
+import User from "../models/users/User";
 
 const TuitSchema = new mongoose.Schema({
     tuit: {type: String, required: true},

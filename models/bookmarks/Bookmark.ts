@@ -3,7 +3,7 @@
  * as in a User bookmarks a Tuit
  */
  import User from '../users/User';
- import Tuit from '../Tuit';
+ import Tuit from '../tuits/Tuit';
 
  /**
   * @typedef Bookmark Represents follows relationship between a User and a Tuit,
