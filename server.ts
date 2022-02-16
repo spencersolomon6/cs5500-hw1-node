@@ -14,5 +14,5 @@ app.listen(process.env.PORT || PORT);
 var mongoDB = 'mongodb+srv://admin:adminPassword@cluster0.vq0f4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(mongoDB);
 
-const userController = new UserController(app, UserDao.getInstance());
-const tuitController = new TuitController(app, TuitDao.getInstance());
+const userController = UserController.getInstance(app);
+const tuitController = TuitController.getInstance(app);
