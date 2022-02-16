@@ -8,7 +8,7 @@ export default class UserController implements UserControllerI {
     private static instance: UserController | null = null; 
     private static userDao: UserDao = UserDao.getInstance();
 
-    private static getInstance = (app: Express): UserController => {
+    public static getInstance = (app: Express): UserController => {
         if (UserController.instance === null) {
             UserController.instance = new UserController();
 
