@@ -25,8 +25,8 @@ import BookmarkController from './controllers/BookmarkController';
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
-const DB_USERNAME = process.env.DB_USERNAME || "admin";
-const DB_PASSWORD = process.env.DB_PASSWORD || "adminPassword";
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
 const HOST = "cluster0.vq0f4.mongodb.net";
 const DB_NAME = "tuiter";
 const DB_QUERY = "retryWrites=true&w=majority";
