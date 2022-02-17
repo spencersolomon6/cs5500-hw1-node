@@ -3,7 +3,6 @@
  */
 
  import mongoose, {Schema} from "mongoose";
-import { isStringTextContainingNode } from "typescript";
  import Message from "../../models/messages/Message";
  
  /**
@@ -17,7 +16,7 @@ import { isStringTextContainingNode } from "typescript";
  const MessageSchema = new mongoose.Schema<Message>({
      to: {type: Schema.Types.ObjectId, ref: "UserModel"},
      from: {type: Schema.Types.ObjectId, ref: "UserModel"},
-     message: {type: String, required: true},
+     message: {type: String},
      sentOn: {type: Date, default: Date.now},
  }, {collection: "messages"});
  export default MessageSchema;

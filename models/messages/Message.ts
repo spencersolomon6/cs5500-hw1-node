@@ -11,9 +11,9 @@
   * @property {String} message the content of the message
   * @property {Date} sentOn the date this message was sent
   */
- export default interface Follow {
+ export default interface Message {
      to: User,
      from: User,
-     message: String,
-     sentOn: Date
+     message?: String,
+     sentOn?: Date
  }

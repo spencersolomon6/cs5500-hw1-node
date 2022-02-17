@@ -37,14 +37,14 @@ export default class FollowController implements FollowControllerI {
      * @param app Express instance to declare the API
      * @returns FollowController
      */
-    public static getInstance(app: Express): FollowController {
+    public static getInstance = (app: Express): FollowController => {
         if (FollowController.instance === null) {
             FollowController.instance = new FollowController();
 
             app.post("/api/follows/:followingid/users/:followedid", FollowController.instance.userFollowsUser);
             app.delete("/api/follows/:followingid/users/:followedid", FollowController.instance.userUnfollowsUser);
-            app.get("/api/follows/:uid/users", FollowController.instance.findAllFollowedBy);
-            app.get("/api/follows/:uid", FollowController.instance.findAllFollowing);
+            app.get("/api/follows/:uid/users", FollowController.instance.findFollowedBy);
+            app.get("/api/follows/:uid", FollowController.instance.findFollowing);
             app.get("/api/follows/:followingid1/follows/:followingid2", FollowController.instance.findBothFollowing);
             app.get("/api/follows", FollowController.instance.findAllFollows);
         }
@@ -100,9 +100,9 @@ export default class FollowController implements FollowControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing an array of Follow objects
      */
-    findAllFollowing = (req: Request, res: Response) =>
+    findFollowing = (req: Request, res: Response) =>
         FollowController.followDao
-        .findAllFollowing(req.params.uid)
+        .findFollowing(req.params.uid)
             .then(follows => res.json(follows));
     
     /**
@@ -112,9 +112,9 @@ export default class FollowController implements FollowControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing an array of Follow objects
      */            
-    findAllFollowedBy = (req: Request, res: Response) =>
+    findFollowedBy = (req: Request, res: Response) =>
         FollowController.followDao
-        .findAllFollowedBy(req.params.uid)
+        .findFollowedBy(req.params.uid)
             .then(follows => res.json(follows));
     
     /**
