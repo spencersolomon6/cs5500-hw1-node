@@ -12,9 +12,9 @@ import MessageControllerI from "../interfaces/MesssageControllerI";
  *      </li>
  *      <li> GET /api/messages/:uid to get all messages received by this user
  *      </li>
- *      <li> DELETE /api/messages/:uid/users/:uid to delete a message between two users
+ *      <li> DELETE /api/messages/:mid to delete a message between two users
  *      </li>
- *      <li> PUT /api/messages/:uid/users/:uid to edit a message
+ *      <li> PUT /api/messages/:mid to edit a message
  *      </li>
  *      <li> GET /api/messages to get all messages in the system
  *      </li>
