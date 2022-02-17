@@ -25,17 +25,18 @@ import BookmarkController from './controllers/BookmarkController';
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
-const DB_USERNAME = process.env.DB_USERNAME;
-const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_USERNAME = process.env.DB_USERNAME || "admin";
+const DB_PASSWORD = process.env.DB_PASSWORD || "adminPassword";
 const HOST = "cluster0.vq0f4.mongodb.net";
 const DB_NAME = "tuiter";
 const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 // connect to the database
-console.log(connectionString);
 mongoose.connect(connectionString);
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
@@ -58,6 +59,4 @@ const messagesController = MessageController.getInstance(app);
  */
 const PORT = 4000;
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 app.listen(process.env.PORT || PORT);
