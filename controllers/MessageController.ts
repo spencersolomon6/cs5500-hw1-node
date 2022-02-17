@@ -38,8 +38,8 @@ export default class MessageController implements MessageControllerI {
             app.post("/api/messages/:uid1/users/:uid2", MessageController.instance.userMessagesUser);
             app.get("/api/messages/:uid/users", MessageController.instance.findSentMessages);
             app.get("/api/messages/:uid", MessageController.instance.findReceivedMessages);
-            app.delete("/api/messages/:uid1/users/:uid2", MessageController.instance.userDeletesMessage);
-            app.put("/api/messages/:uid1/users/:uid2", MessageController.instance.userEditsMessage);
+            app.delete("/api/messages/:mid", MessageController.instance.userDeletesMessage);
+            app.put("/api/messages/:mid", MessageController.instance.userEditsMessage);
             app.get("/api/messages", MessageController.instance.findAllMessages);
         }
 
@@ -84,28 +84,27 @@ export default class MessageController implements MessageControllerI {
     /**
      * User deletes a message
      * @param {Request} req Represents request from client, including the path
-     * parameter uid1 representing the user making the request and uid2 representing
-     * the user who received the message
+     * parameter mid representing the message being deleted
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the status of the delete operation
      */        
     userDeletesMessage = (req: Request, res: Response) =>
-        MessageController.messageDao.userDeletesMessage(req.params.uid1, req.params.uid2)
+        MessageController.messageDao.userDeletesMessage(req.params.mid)
             .then(status => res.json(status));
 
     /**
      * Update a message between two users
      * @param {Request} req Represents request from client, including the path
-     * parameter uid1 representing the user who sent the message, uid2 representing
-     * the user who recieved the message, and a new edited message in the body of the request.
+     * parameter mid representing the message to be edited, and a new edited 
+     * message in the body of the request.
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the updated Message object
      */            
     userEditsMessage = (req: Request, res: Response) =>
-        MessageController.messageDao.userEditsMessage(req.params.uid1, req.params.uid2, req.body)
+        MessageController.messageDao.userEditsMessage(req.params.mid, req.body)
             .then(message => res.json(message));
     
-            /**
+    /**
      * Retreive all messages in the system
      * @param {Request} req Represents request from clientt
      * @param {Response} res Represents response to client, including the

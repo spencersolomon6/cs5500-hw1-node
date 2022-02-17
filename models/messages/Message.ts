@@ -15,5 +15,6 @@
      to: User,
      from: User,
      message?: String,
-     sentOn?: Date
+     sentOn?: Date,
+     messageId: String
  }
