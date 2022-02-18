@@ -19,7 +19,6 @@
      to: {type: Schema.Types.ObjectId, ref: "UserModel"},
      from: {type: Schema.Types.ObjectId, ref: "UserModel"},
      message: {type: String},
-     sentOn: {type: Date, default: Date.now},
-     messageId: {type: String, default: randomUUID()},
+     sentOn: {type: Date, default: Date.now}
  }, {collection: "messages"});
  export default MessageSchema;

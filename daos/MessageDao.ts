@@ -20,14 +20,13 @@ export default class MessageDao implements MessageDaoI {
 
     private constructor() { }
 
-    userMessagesUser = async (uid1: string, uid2: string, message: string): Promise<User2Message> => {
-        const m = await MessageModel.create({to:uid2, from:uid1, message:message});
-        return User2MessageModel.create({messageId: m, sentTo: uid2, sentBy: uid1});
-    }
+    userMessagesUser = async (uid1: string, uid2: string, message: string): Promise<User2Message> =>
+        MessageModel.create({to: uid2, from: uid1, message: message})
+        .then(__ => User2MessageModel.create({messageId: message, sentTo: uid2, sentBy: uid1}));
         
 
     findSentMessages = async (uid: string): Promise<User2Message[]> =>
-        User2MessageModel.find({sentBy: uid}).populate("messageId", "sentTo").exec();
+        User2MessageModel.find({sentBy: uid}).populate("message", "sentTo").exec();
 
     findReceivedMessages = async (uid: string): Promise<User2Message[]> =>
         User2MessageModel
@@ -35,11 +34,9 @@ export default class MessageDao implements MessageDaoI {
         .populate("message", "sentBy")
         .exec();
 
-    userDeletesMessage = async (mid: string): Promise<any> => {
-        const s = await User2MessageModel.deleteOne({message: mid});
-        MessageModel.deleteOne({messageId: mid});
-    }
-        
+    userDeletesMessage = async (mid: string): Promise<any> => 
+        User2MessageModel.deleteOne({message: mid})
+        .then(__ => MessageModel.deleteOne({messageId: mid}));
 
     userEditsMessage = async (mid: string, message: string): Promise<User2Message> => {
         const filter = {"message": mid};
@@ -56,6 +53,6 @@ export default class MessageDao implements MessageDaoI {
     findAllMessages = async (): Promise<User2Message[]> =>
         User2MessageModel
         .find()
-        .populate("sentT", "sentBy", "message")
+        .populate("sentTo", "sentBy", "message")
         .exec();
 }
