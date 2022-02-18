@@ -6,9 +6,9 @@ import MessageControllerI from "../interfaces/MesssageControllerI";
  * @file Exposes RESTful API endpoints for the message resource.
  * Exposes the following HTTP endpoints:
  * <ul>
- *      <li> POST /api/messages/:uid/users/:uid to send a message from one user to another, with the message in the JSON body
+ *      <li> POST /api/users/:uid/messages/:uid to send a message from one user to another, with the message in the JSON body
  *      </li>
- *      <li> GET /api/messages/:uid/users to get all messages a user has sent
+ *      <li> GET /api/users/:uid/messages to get all messages a user has sent
  *      </li>
  *      <li> GET /api/messages/:uid to get all messages received by this user
  *      </li>
@@ -35,8 +35,8 @@ export default class MessageController implements MessageControllerI {
         if (MessageController.instance === null) {
             MessageController.instance = new MessageController();
 
-            app.post("/api/messages/:uid1/users/:uid2", MessageController.instance.userMessagesUser);
-            app.get("/api/messages/:uid/users", MessageController.instance.findSentMessages);
+            app.post("/api/users/:uid1/messages/:uid2", MessageController.instance.userMessagesUser);
+            app.get("/api/users/:uid/messages", MessageController.instance.findSentMessages);
             app.get("/api/messages/:uid", MessageController.instance.findReceivedMessages);
             app.delete("/api/messages/:mid", MessageController.instance.userDeletesMessage);
             app.put("/api/messages/:mid", MessageController.instance.userEditsMessage);

@@ -7,11 +7,11 @@ import BookmarkControllerI from "../interfaces/BookmarkControllerI";
  * @file This class exposes RESTful API endpoints for the bookmark resource. 
  * Defines the following endpoints:
  * <ul>
- *      <li>POST /api/bookmarks/:uid/tuits/:tid to create a new bookmarked tuit for the given user
+ *      <li>POST /api/users/:uid/bookmarks/:tid to create a new bookmarked tuit for the given user
  *      </li>
- *      <li>DELETE /api/bookmarks/:uid/tuits/:tid to delete a new bookmarked tuit for the given user
+ *      <li>DELETE /api/users/:uid/bookmarks/:tid to delete a new bookmarked tuit for the given user
  *      </li>
- *      <li>GET /api/bookmarks/:uid to retreive all tuits bookmarked by the given user
+ *      <li>GET /api/users/:uid/bookmarks to retreive all tuits bookmarked by the given user
  *      </li>
  *      <li>GET /api/bookmarks/:tid to retreive all users who have bookmarked a given tuit
  *      </li>
@@ -34,9 +34,9 @@ export default class BookmarkController implements BookmarkControllerI {
         if (BookmarkController.instance === null) {
             BookmarkController.instance = new BookmarkController();
 
-            app.post("/api/bookmarks/:uid/tuits/:tid", BookmarkController.instance.userBookmarksTuit);
-            app.delete("/api/bookmarks/:uid/tuits/:tid", BookmarkController.instance.userUnbookmarksTuit);
-            app.get("/api/bookmarks/:uid", BookmarkController.instance.findBookmarkedTuits);
+            app.post("/api/users/:uid/bookmarks/:tid", BookmarkController.instance.userBookmarksTuit);
+            app.delete("/api/users/:uid/bookmarks/:tid", BookmarkController.instance.userUnbookmarksTuit);
+            app.get("/api/users/:uid/bookmarks", BookmarkController.instance.findBookmarkedTuits);
             app.get("/api/bookmarks/:tid", BookmarkController.instance.findBookmarkedByUsers);
             app.get("/api/bookmarks", BookmarkController.instance.findAllBookmarks);
         }

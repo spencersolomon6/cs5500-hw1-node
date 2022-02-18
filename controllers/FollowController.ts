@@ -1,20 +1,16 @@
-/**
- * @file Controller RESTful Web API Service for Follows resource
- */
-
 import {Express, Request, Response } from "express";
 import FollowDao from "../daos/FollowDao";
 import FollowControllerI from "../interfaces/FollowControllerI";
 
 /**
- * @class FollowController Implements RESTful Web service API for follows resource.
+ * @file FollowController Implements RESTful Web service API for follows resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>POST /api/follows/:followingid/users/:followedid to record that a user follows 
+ *     <li>POST /api/users/:followingid/follows/:followedid to record that a user follows 
  *     another user </li>
- *     <li>DELETE /api/follows/:followingid/users/:followedid to record that a user 
+ *     <li>DELETE /api/users/:followingid/follows/:followedid to record that a user 
  *     unfollowed another user </li>
- *     <li>GET /api/follows/:uid/users to find all users following a given user
+ *     <li>GET /api/users/:uid/follows to find all users following a given user
  *     </li>
  *     <li>GET /api/follows/:uid to find all users that this user follows
  *     </li>
@@ -41,9 +37,9 @@ export default class FollowController implements FollowControllerI {
         if (FollowController.instance === null) {
             FollowController.instance = new FollowController();
 
-            app.post("/api/follows/:followingid/users/:followedid", FollowController.instance.userFollowsUser);
-            app.delete("/api/follows/:followingid/users/:followedid", FollowController.instance.userUnfollowsUser);
-            app.get("/api/follows/:uid/users", FollowController.instance.findFollowedBy);
+            app.post("/api/users/:followingid/follows/:followedid", FollowController.instance.userFollowsUser);
+            app.delete("/api/users/:followingid/follows/:followedid", FollowController.instance.userUnfollowsUser);
+            app.get("/api/users/:uid/follows", FollowController.instance.findFollowedBy);
             app.get("/api/follows/:uid", FollowController.instance.findFollowing);
             app.get("/api/follows/:followingid1/follows/:followingid2", FollowController.instance.findBothFollowing);
             app.get("/api/follows", FollowController.instance.findAllFollows);
