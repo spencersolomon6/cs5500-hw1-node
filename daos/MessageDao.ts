@@ -21,17 +21,16 @@ export default class MessageDao implements MessageDaoI {
     private constructor() { }
 
     userMessagesUser = async (uid1: string, uid2: string, message: string): Promise<User2Message> =>
-        MessageModel.create({to: uid2, from: uid1, message: message})
+        MessageModel.create({message:message})
         .then(__ => User2MessageModel.create({messageId: message, sentTo: uid2, sentBy: uid1}));
-        
 
     findSentMessages = async (uid: string): Promise<User2Message[]> =>
-        User2MessageModel.find({sentBy: uid}).populate("message", "sentTo").exec();
+        User2MessageModel.find({sentBy: uid}).populate("message", "sentTo", "sentBy").exec();
 
     findReceivedMessages = async (uid: string): Promise<User2Message[]> =>
         User2MessageModel
         .find({sentTo: uid})
-        .populate("message", "sentBy")
+        .populate("message", "sentBy", "sentTo")
         .exec();
 
     userDeletesMessage = async (mid: string): Promise<any> => 

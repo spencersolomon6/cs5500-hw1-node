@@ -16,8 +16,6 @@
   * @property {Date} sentOn the date this message was sent
   */
  const MessageSchema = new mongoose.Schema<Message>({
-     to: {type: Schema.Types.ObjectId, ref: "UserModel"},
-     from: {type: Schema.Types.ObjectId, ref: "UserModel"},
      message: {type: String},
      sentOn: {type: Date, default: Date.now}
  }, {collection: "messages"});
