@@ -56,7 +56,7 @@ export default class MessageController implements MessageControllerI {
      * body formatted as JSON containing the new Message object
      */
     userMessagesUser = (req: Request, res: Response) =>
-        MessageController.messageDao.userMessagesUser(req.params.uid1, req.params.uid2, req.body)
+        MessageController.messageDao.userMessagesUser(req.params.uid1, req.params.uid2, req.body.message)
             .then(message => res.json(message));
 
     /**
@@ -101,7 +101,7 @@ export default class MessageController implements MessageControllerI {
      * body formatted as JSON containing the updated Message object
      */            
     userEditsMessage = (req: Request, res: Response) =>
-        MessageController.messageDao.userEditsMessage(req.params.mid, req.body)
+        MessageController.messageDao.userEditsMessage(req.params.mid, req.body.message)
             .then(message => res.json(message));
     
     /**

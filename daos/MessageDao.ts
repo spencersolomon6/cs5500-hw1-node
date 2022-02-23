@@ -21,8 +21,8 @@ export default class MessageDao implements MessageDaoI {
     private constructor() { }
 
     userMessagesUser = async (uid1: string, uid2: string, message: string): Promise<User2Message> =>
-        MessageModel.create({message:message})
-        .then(message => User2MessageModel.create({messageId: message._id, sentTo: uid2, sentBy: uid1}));
+        MessageModel.create({message: message})
+        .then(m => User2MessageModel.create({messageId: m._id, sentTo: uid2, sentBy: uid1}));
 
     findSentMessages = async (uid: string): Promise<User2Message[]> =>
         User2MessageModel.find({sentBy: uid}).populate("message", "sentTo", "sentBy").exec();
