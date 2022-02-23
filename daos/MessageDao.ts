@@ -25,12 +25,12 @@ export default class MessageDao implements MessageDaoI {
         .then(m => User2MessageModel.create({message: m._id, sentTo: uid2, sentBy: uid1}));
 
     findSentMessages = async (uid: string): Promise<User2Message[]> =>
-        User2MessageModel.find({sentBy: uid}).populate("message", "sentTo", "sentBy").exec();
+        User2MessageModel.find({sentBy: uid}).populate("sentTo", "sentBy").exec();
 
     findReceivedMessages = async (uid: string): Promise<User2Message[]> =>
         User2MessageModel
         .find({sentTo: uid})
-        .populate("message", "sentBy", "sentTo")
+        .populate("sentBy", "sentTo")
         .exec();
 
     userDeletesMessage = async (mid: string): Promise<any> => 
@@ -50,6 +50,6 @@ export default class MessageDao implements MessageDaoI {
     findAllMessages = async (): Promise<User2Message[]> =>
         User2MessageModel
         .find()
-        .populate("sentTo", "sentBy", "message")
+        .populate("sentTo", "sentBy")
         .exec();
 }

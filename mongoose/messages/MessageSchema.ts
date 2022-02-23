@@ -2,16 +2,12 @@
  * @file Implements mongoose schema for messages
  */
 
- import mongoose, {isValidObjectId, Schema} from "mongoose";
- import { idText } from "typescript";
+ import mongoose, {Schema} from "mongoose";
  import Message from "../../models/messages/Message";
- import { randomUUID } from "crypto";
  
  /**
   * @typedef Message Represents message relationship between two users,
   * as in a user messages another user
-  * @property {User} to User receiving the message
-  * @property {User} from User sending the message
   * @property {String} message the content of the message
   * @property {Date} sentOn the date this message was sent
   */
