@@ -14,8 +14,8 @@ import FollowControllerI from "../interfaces/FollowControllerI";
  *     </li>
  *     <li>GET /api/follows/:uid to find all users that this user follows
  *     </li>
- *     <li>GET /api/follows/:followingid1/follows/:followingid2 to find all users followed by 
- *     both the given users </li>
+ *     <li>GET /api/users/:followingid1/follows/:followingid2 to find a specifc Follow
+ *     instance </li>
  *     <li> GET /api/follows to find all follows relationships in the system
  *     </li>
  * </ul>
@@ -41,7 +41,7 @@ export default class FollowController implements FollowControllerI {
             app.delete("/api/users/:followingid/follows/:followedid", FollowController.instance.userUnfollowsUser);
             app.get("/api/users/:uid/follows", FollowController.instance.findFollowedBy);
             app.get("/api/follows/:uid", FollowController.instance.findFollowing);
-            app.get("/api/follows/:followingid1/follows/:followingid2", FollowController.instance.findBothFollowing);
+            app.get("/api/users/:followingid1/follows/:followingid2", FollowController.instance.findFollow);
             app.get("/api/follows", FollowController.instance.findAllFollows);
         }
 
@@ -77,16 +77,16 @@ export default class FollowController implements FollowControllerI {
             .then(status => res.json(status));
     
     /**
-     * Retreives all users who are followed by both of the given users
+     * Retreives a specific follow instance
      * @param {Request} req Represents request from client, including the path
-     * parameter followingid1 representing the first user and
-     * followingid2 representing the second user
+     * parameter followingid1 representing the user performing the operation and
+     * followingid2 representing the user being followed
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing an array of Follow objects
      */            
-    findBothFollowing = (req: Request, res: Response) =>
+    findFollow = (req: Request, res: Response) =>
         FollowController.followDao
-        .findBothFollowing(req.params.followingid1, req.params.followingid2)
+        .findFollow(req.params.followingid1, req.params.followingid2)
             .then(follows => res.json(follows));
     
     /** 

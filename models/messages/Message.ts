@@ -12,8 +12,6 @@
   * @property {Date} sentOn the date this message was sent
   */
  export default interface Message {
-     to: User,
-     from: User,
      message?: String,
      sentOn?: Date
  }
