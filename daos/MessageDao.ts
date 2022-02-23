@@ -22,7 +22,7 @@ export default class MessageDao implements MessageDaoI {
 
     userMessagesUser = async (uid1: string, uid2: string, message: string): Promise<User2Message> =>
         MessageModel.create({message: message})
-        .then(m => User2MessageModel.create({messageId: m._id, sentTo: uid2, sentBy: uid1}));
+        .then(m => User2MessageModel.create({message: m._id, sentTo: uid2, sentBy: uid1}));
 
     findSentMessages = async (uid: string): Promise<User2Message[]> =>
         User2MessageModel.find({sentBy: uid}).populate("message", "sentTo", "sentBy").exec();
@@ -37,16 +37,14 @@ export default class MessageDao implements MessageDaoI {
         User2MessageModel.deleteOne({message: mid})
         .then(__ => MessageModel.deleteOne({messageId: mid}));
 
-    userEditsMessage = async (mid: string, message: string): Promise<User2Message> => {
-        const filter = {"message": mid};
+    userEditsMessage = async (mid: string, message: string): Promise<Message> => {
+        const filter = {"_id": mid};
         const update = {
-            message: {
                 $set: {"message": message},
                 $currentDate: {sentOn: true}
-            }
         };
 
-        return User2MessageModel.replaceOne(filter, update);
+        return MessageModel.replaceOne(filter, update);
     }
 
     findAllMessages = async (): Promise<User2Message[]> =>

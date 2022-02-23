@@ -15,7 +15,7 @@ import User2Message from "../../models/messages/User2Message";
   * @property {User} sentTo the user who received the message
   */
  const User2MessageSchema = new mongoose.Schema<User2Message>({
-     messageId: {type: Schema.Types.ObjectId, ref: "MessageModel"},
+     message: {type: Schema.Types.ObjectId, ref: "MessageModel"},
      sentBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
      sentTo: {type: Schema.Types.ObjectId, ref: "UserModel"},
  }, {collection: "user2messages"});
