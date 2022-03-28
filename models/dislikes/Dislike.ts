@@ -11,7 +11,6 @@
   * @property {Tuit} tuit Tuit being disliked
   * @property {User} dislikedBy User liking the tuit
   */
- 
  export default interface Dislike {
      tuit: Tuit,
      dislikedBy: User

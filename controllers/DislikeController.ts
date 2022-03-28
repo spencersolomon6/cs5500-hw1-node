@@ -17,10 +17,14 @@ import TuitDao from "../daos/TuitDao";
   *     </li>
   *     <li>GET /api/tuits/:tid/dislikes to retrieve all users that disliked a tuit
   *     </li>
+  *     <li>GET /api/tuits/:tid/dislikes/count to retrieve a count of the users who have
+  *     liked this tuit </li>
   *     <li>POST /api/users/:uid/dislikes/:tid to record that a user dislikes a tuit
   *     </li>
   *     <li>DELETE /api/users/:uid/undislikes/:tid to record that a user
   *     no londer dislikes a tuit</li>
+  *     <li>PUT /api/users/:uid/dislikes/:tid to toggle the state of the dislike 
+  *     button for this user </li>
   * </ul>
   * @property {DislikeDao} dislikeDao Singleton DAO implementing dislikes CRUD operations
   * @property {DislikeController} DislikeController Singleton controller implementing
@@ -35,14 +39,14 @@ import TuitDao from "../daos/TuitDao";
       * Creates singleton controller instance
       * @param {Express} app Express instance to declare the RESTful Web service
       * API
-      * @return TuitController
+      * @return {TuitController} singleton DislikeController instance
       */
      public static getInstance = (app: Express): DislikeController => {
          if(DislikeController.dislikeController === null) {
              DislikeController.dislikeController = new DislikeController();
              app.get("/api/users/:uid/Dislikes", DislikeController.dislikeController.findAllTuitsDislikedByUser);
              app.get("/api/tuits/:tid/dislikes", DislikeController.dislikeController.findAllUsersThatDislikedTuit);
-             app.get("/api/tuits/:tid/dslikes/count", DislikeController.dislikeController.countHowManyDislikedTuit);
+             app.get("/api/tuits/:tid/dislikes/count", DislikeController.dislikeController.countHowManyDislikedTuit);
              app.post("/api/users/:uid/dislikes/:tid", DislikeController.dislikeController.userDislikesTuit);
              app.delete("/api/users/:uid/undislikes/:tid", DislikeController.dislikeController.userUndislikesTuit);
              app.put("/api/users/:uid/dislikes/:tid", DislikeController.dislikeController.userTogglesTuitDislikes);
@@ -70,9 +74,22 @@ import TuitDao from "../daos/TuitDao";
       * @param {Response} res Represents response to client, including the
       * body formatted as JSON arrays containing the tuit objects that were disliked
       */
-     findAllTuitsDislikedByUser = (req: Request, res: Response) =>
-         DislikeController.dislikeDao.findAllTuitsDislikedByUser(req.params.uid)
-             .then(dislikes => res.json(dislikes));
+     findAllTuitsDislikedByUser = (req: any, res: any) => {
+        const uid = req.params.uid;
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ?
+            profile._id : uid;
+
+        DislikeController.dislikeDao.findAllTuitsDislikedByUser(req.params.uid)
+            .then(dislikes => {
+                const dislikesNonNullTuits =
+                    dislikes.filter(dislike => dislike.tuit);
+                const tuitsFromDislikes =
+                    dislikesNonNullTuits.map(dislike => dislike.tuit);
+                res.json(tuitsFromDislikes);
+            });
+            
+    }
  
      /**
       * Retrieves the count of how many users dsliked a given tuit
