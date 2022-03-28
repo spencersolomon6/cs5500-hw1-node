@@ -11,7 +11,8 @@ const TuitSchema = new mongoose.Schema<Tuit>({
     stats: {
         replies: Number,
         retuits: Number,
-        likes: Number
+        likes: Number,
+        dislikes: Number
     }
 }, {collection: "tuits"});
 export default TuitSchema;
