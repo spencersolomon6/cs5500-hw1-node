@@ -18,8 +18,14 @@ import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
+import FollowController from './controllers/FollowController';
+import BookmarkController from './controllers/BookmarkController';
+import MessageController from './controllers/MessageController';
 import mongoose from "mongoose";
-var cors = require('cors')
+import AuthenticationController from './controllers/AuthController';
+
+const session = require('express-session');
+const cors = require('cors');
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -42,6 +48,19 @@ app.get('/', (req: Request, res: Response) =>
 app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
 
+// Configure secure cookies when operating in production
+let sess = {
+    secret: process.env.SECRET,
+    cookie: {
+        secure: false
+    }
+}
+
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
 // create RESTful Web service API
 const courseController = new CourseController(app);
 const userController = UserController.getInstance(app);
@@ -50,6 +69,7 @@ const likesController = LikeController.getInstance(app);
 const followsController = FollowController.getInstance(app);
 const bookmarksController = BookmarkController.getInstance(app);
 const messagesController = MessageController.getInstance(app);
+const authController = AuthenticationController(app);
 
 /**
  * Start a server listening at port 4000 locally
