@@ -1,3 +1,4 @@
+import { NullLiteral } from "typescript";
 import Dislike from "../models/dislikes/Dislike";
 
 /**
@@ -6,6 +7,8 @@ import Dislike from "../models/dislikes/Dislike";
 export default interface DislikeDaoI {
     findAllUsersThatDislikedTuit (tid: string): Promise<Dislike[]>;
     findAllTuitsDislikedByUser (uid: string): Promise<Dislike[]>;
-    userUnDislikesTuit (tid: string, uid: string): Promise<any>;
+    findUserDislikesTuit (uid: string, tid: string): Promise<Dislike | null>;
+    countHowManyDislikedTuit (tid: string): Promise<number>;
+    userUndislikesTuit (tid: string, uid: string): Promise<any>;
     userDislikesTuit (tid: string, uid: string): Promise<Dislike>;
 };
