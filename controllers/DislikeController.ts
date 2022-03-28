@@ -70,9 +70,22 @@ import TuitDao from "../daos/TuitDao";
       * @param {Response} res Represents response to client, including the
       * body formatted as JSON arrays containing the tuit objects that were disliked
       */
-     findAllTuitsDislikedByUser = (req: Request, res: Response) =>
-         DislikeController.dislikeDao.findAllTuitsDislikedByUser(req.params.uid)
-             .then(dislikes => res.json(dislikes));
+     findAllTuitsDislikedByUser = (req: any, res: any) => {
+        const uid = req.params.uid;
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ?
+            profile._id : uid;
+
+        DislikeController.dislikeDao.findAllTuitsDislikedByUser(req.params.uid)
+            .then(dislikes => {
+                const dislikesNonNullTuits =
+                    dislikes.filter(dislike => dislike.tuit);
+                const tuitsFromDislikes =
+                    dislikesNonNullTuits.map(dislike => dislike.tuit);
+                res.json(tuitsFromDislikes);
+            });
+            
+    }
  
      /**
       * Retrieves the count of how many users dsliked a given tuit
