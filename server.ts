@@ -40,7 +40,10 @@ mongoose.connect(connectionString);
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: process.env.CORS_ORIGIN
+}));
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
@@ -50,13 +53,16 @@ app.get('/add/:a/:b', (req: Request, res: Response) =>
 
 // Configure secure cookies when operating in production
 let sess = {
-    secret: process.env.SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    saveUnintialized: true,
+    resave: true,
     cookie: {
-        secure: false
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
     }
 }
 
-if (process.env.ENV === 'PRODUCTION') {
+if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
 }
